@@ -13,12 +13,8 @@
   },
   "homepage": "https://github.com/brandfrisch/aptly#readme",
   "scripts": {
-  },
-  "husky": {
-    "hooks": {
-      "commitmsg": "commitlint -e $GIT_PARAMS",
-      "pre-commit": "yamllint . && ansible-lint ."
-    }
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "precommit": "yamllint . && ansible-lint ."
   },
   "commitlint": {
     "extends": [
