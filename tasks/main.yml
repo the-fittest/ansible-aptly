@@ -32,8 +32,6 @@
     - setup
     - aptly
 
-- import_tasks: gpg.yml
-
 - name: Create publish directory
   file:
     path:  "/var/lib/aptly/public"
@@ -44,6 +42,8 @@
   tags:
     - setup
     - aptly
+
+- import_tasks: gpg.yml
 
 - name: Adding the aptly repo key
   apt_key:
