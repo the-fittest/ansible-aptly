@@ -23,7 +23,7 @@
       dest: "{{ aptly_private_key }}",
       mode: "0600"
     }
-  no_log: true
+  # no_log: true
   tags:
     - setup
     - aptly
