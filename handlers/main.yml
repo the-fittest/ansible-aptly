@@ -1,0 +1,16 @@
+---
+# handlers file for aptly
+- name: start aptly
+  service:
+    name: aptly
+    state: started
+
+- name: stop aptly
+  service:
+    name: aptly
+    state: stopped
+
+- name: restart aptly
+  service:
+    name: aptly
+    state: restarted

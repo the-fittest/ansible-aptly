@@ -1,0 +1,19 @@
+---
+# defaults file for aptly
+
+aptly_packages:
+  - aptly
+  - gnupg2
+  - rng-tools
+
+aptly_additional_packages: []
+
+aptly_address: 127.0.0.1
+aptly_port: 8080
+
+aptly_config_files:
+  - aptly.conf.j2
+
+aptly_repo_name: debian-local
+aptly_repo_default_distribution: xenial
+aptly_repo_default_component: main

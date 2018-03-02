@@ -1,0 +1,34 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: aptly-ubuntu-1604
+    image: brandfrisch/ubuntu-16.04:latest
+    privileged: True
+    command: /lib/systemd/systemd
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    exposed_ports:
+      - "8080/tcp"
+    published_ports:
+      - "127.0.0.1:8080:8080/tcp"
+provisioner:
+  name: ansible
+  options:
+    D: True
+  lint:
+    name: ansible-lint
+    options:
+      r: /usr/local/src/ansible-lint-rules
+scenario:
+  name: default
+verifier:
+  name: goss
+  lint:
+    name: 'None'

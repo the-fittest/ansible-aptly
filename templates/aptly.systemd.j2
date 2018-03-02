@@ -1,0 +1,14 @@
+[Unit]
+Description=Aptly REST API service
+
+[Service]
+Environment="GIN_MODE=release"
+User=aptly
+WorkingDirectory=/var/lib/aptly
+ExecStart=/usr/bin/aptly api serve -listen "{{ aptly_address }}:{{ aptly_port }}" -no-lock
+KillSignal=SIGTERM
+KillMode=process
+TimeoutStopSec=15s
+
+[Install]
+WantedBy=multi-user.target

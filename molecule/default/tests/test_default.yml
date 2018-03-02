@@ -1,0 +1,51 @@
+# Molecule managed
+---
+package:
+  aptly:
+    installed: true
+  dummy:
+    installed: true
+  nginx:
+    installed: true
+  sigh:
+    installed: true
+port:
+  tcp:80:
+    listening: true
+    ip:
+      - 0.0.0.0
+  tcp:8080:
+    listening: true
+    ip:
+      - 127.0.0.1
+service:
+  aptly:
+    enabled: true
+    running: true
+  nginx:
+    enabled: true
+    running: true
+user:
+  aptly:
+    exists: true
+    groups:
+      - aptly
+    home: /var/lib/aptly
+    shell: ""
+  nginx:
+    exists: true
+    groups:
+      - nginx
+      - www-data
+    home: /nonexistent
+    shell: /bin/false
+group:
+  aptly:
+    exists: true
+  nginx:
+    exists: true
+process:
+  aptly:
+    running: true
+  nginx:
+    running: true

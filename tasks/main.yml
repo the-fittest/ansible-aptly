@@ -1,0 +1,147 @@
+---
+# tasks file for aptly
+
+- name: Create aptly group
+  group:
+    name: aptly
+    system: true
+    state: present
+  tags:
+    - setup
+    - aptly
+
+- name: Create aptly user
+  user:
+    name: aptly
+    group: aptly
+    system: true
+    home: "/var/lib/aptly"
+    state: present
+  tags:
+    - setup
+    - aptly
+
+- name: Create gnupg directory
+  file:
+    path:  "/var/lib/aptly/.gnupg"
+    owner: aptly
+    group: aptly
+    mode:  0700
+    state: directory
+  tags:
+    - setup
+    - aptly
+
+- import_tasks: gpg.yml
+
+- name: Create publish directory
+  file:
+    path:  "/var/lib/aptly/public"
+    owner: aptly
+    group: aptly
+    mode:  0755
+    state: directory
+  tags:
+    - setup
+    - aptly
+
+- name: Adding the aptly repo key
+  apt_key:
+    url: https://www.aptly.info/pubkey.txt
+    state: present
+  tags:
+    - setup
+    - aptly
+
+- name: Add aptly repository
+  apt_repository:
+    repo: 'deb http://repo.aptly.info/ squeeze main'
+    update_cache: true
+    state: present
+  tags:
+    - setup
+    - aptly
+
+- name: Install aptly packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ aptly_packages }}"
+    - "{{ aptly_additional_packages }}"
+  tags:
+    - package
+    - aptly
+
+- name: Write aptly config
+  when: aptly_config_files is defined
+  template:
+    src: "{{ item }}"
+    dest: "/etc/{{ item | basename | replace('.j2', '') | mandatory }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ aptly_config_files }}"
+  notify: restart aptly
+  tags:
+    - config
+    - aptly
+
+- name: Copy aptly systemd
+  template:
+    src: aptly.systemd.j2
+    dest: /lib/systemd/system/aptly.service
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - config
+    - aptly
+
+- name: start aptly
+  service:
+    name: aptly
+    state: started
+    enabled: true
+  tags:
+    - service
+    - aptly
+
+- name: Show repository
+  become: true
+  become_user: aptly
+  command: >
+    aptly repo show {{ aptly_repo_name }}
+  register: aptly_repo_list
+  ignore_errors: true
+  changed_when: false
+  tags:
+    - config
+    - aptly
+
+- name: Create repository
+  become: true
+  become_user: aptly
+  when: aptly_repo_list.rc == 1
+  command: >
+    aptly repo create
+    -distribution={{ aptly_repo_default_distribution }}
+    -component={{ aptly_repo_default_component }}
+    {{ aptly_repo_name }}
+  tags:
+    - config
+    - aptly
+
+- name: Publish repository
+  become: true
+  become_user: aptly
+  when: aptly_repo_list.rc == 1
+  command: >
+    aptly publish repo
+    -distribution={{ aptly_repo_default_distribution }}
+    -component={{ aptly_repo_default_component }}
+    {{ aptly_repo_name }} filesystem:web:{{ aptly_repo_name }}
+  tags:
+    - config
+    - aptly

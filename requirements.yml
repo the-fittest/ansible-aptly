@@ -1,0 +1,2 @@
+---
+- src: git+ssh://git@github.com/brandfrisch/nginx.git

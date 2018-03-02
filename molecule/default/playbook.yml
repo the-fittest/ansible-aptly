@@ -1,0 +1,63 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    aptly_gpg_public_key: |
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+      Version: GnuPG v1
+
+      mQMuBFqXLtwRCACJNoCjENF1ZAxBtCbTAQJKZsUw4pSKnzsUujP2y6pDdUPTAGJG
+      tXIhNrXlWwwOz0zcORq/3D2RL95jvBMB8ixCFrkBwcPh4INm6wXxXxVxHFQaJbHm
+      vKjFiZmSEORZ1/DWAsD6aQ9ScSQwPRnhQTEbzlaFQTkbff/mlGLlX6GG76VYyPW4
+      +p1u2drUYWJd7TIp/IFRWS86F2EesUq8RUh1yzrGr8nIpUDcq5/P2JXkP3HWnMMj
+      DXzc+LJjhIUHwWfiDv9fFFActKsyKErADP/7ig3SVGa7ZXlzf4A8M5VVCqF/LoS6
+      cMeVodxND6CI6pwsazTiHRmGt7gF9D8xFnaPAQDE8ECGzPiNg+aqFHdwmH7EFPGP
+      xfZUuKBR0077V01MrQf9FPgHkGDCQp8H4uLcskypr6x2VFvSzPIKNOU1ewYwC8oE
+      011M46oOevagUPx5QykeNsyaerdaIRS1cMKV8n/p/FJUpT9j9xw3dSBuyVhs8B/k
+      AJZiCjYrOQKadMfDlNFfA/apTy5NJ1mNvzTbED+nNrWTVIL0hwEPc9Yf7UwVLPdl
+      XL/EXF87On/uL6VOjAm8yNDhvX23/C+ddkFWh53tK4TmKk8SpMsnCsstm5XQuN50
+      Xmb5PLo2eCBBATk5TDbpC9ZXfgqo2kkkmQl2tXdU+Tdpo/Pe5RyZN9146HkX55fq
+      3cHVp/wzg4sGV94TwKnSPWM4KPBJuzoj7hKlqdqPQQf+LLuWz3R2oJsQndoxDEhD
+      7j+HyDLSPyj9ohwuA3l9GxKq06w83jtB3A6m0upeNkY2GEOI1EOe7GEniApSdbnb
+      Yao4BYGzToI0Q6BdMD3LaOTQ6/H14O2tuZx06duMGA8UAyPxzBcT+1Der5VbyMux
+      RbBAaNKG9JLqybb7qxR/1+nNocqL1M+xhqUGHm7DrdF25V00IS/IZ7wQpQgPooNz
+      xjQ2akcWGQa12i4m+Y0VTMNOFgv0h9FuyKL/TzMpm1jtqPEFPMzTa5FOvGidMQvF
+      KX9WFEpYVOZFi4y6cEaM2VKNEW+myl7Xpq6pLv7sM7KEjV+VXQIZN7vb7cMWhdKS
+      2bQoSGVpbnJpY2ggSGVpbmUgPGVpbnJpY2hoQGR1ZXNzZWxkb3JmLmRlPoh6BBMR
+      CAAiBQJaly7cAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDFXFTjDMhb
+      Z7pVAPwJ3oUlo4UJLFdxMePukzweTnEuemxaWeNDRwGZjzfgRgD+Ogn7xPCi+NON
+      a+Z3/UgUL/cI3lxwHzxA9R2f3J9Btxg=
+      =slM0
+      -----END PGP PUBLIC KEY BLOCK-----
+
+    aptly_gpg_private_key: |
+      -----BEGIN PGP PRIVATE KEY BLOCK-----
+      Version: GnuPG v1
+
+      lQNTBFqXLtwRCACJNoCjENF1ZAxBtCbTAQJKZsUw4pSKnzsUujP2y6pDdUPTAGJG
+      tXIhNrXlWwwOz0zcORq/3D2RL95jvBMB8ixCFrkBwcPh4INm6wXxXxVxHFQaJbHm
+      vKjFiZmSEORZ1/DWAsD6aQ9ScSQwPRnhQTEbzlaFQTkbff/mlGLlX6GG76VYyPW4
+      +p1u2drUYWJd7TIp/IFRWS86F2EesUq8RUh1yzrGr8nIpUDcq5/P2JXkP3HWnMMj
+      DXzc+LJjhIUHwWfiDv9fFFActKsyKErADP/7ig3SVGa7ZXlzf4A8M5VVCqF/LoS6
+      cMeVodxND6CI6pwsazTiHRmGt7gF9D8xFnaPAQDE8ECGzPiNg+aqFHdwmH7EFPGP
+      xfZUuKBR0077V01MrQf9FPgHkGDCQp8H4uLcskypr6x2VFvSzPIKNOU1ewYwC8oE
+      011M46oOevagUPx5QykeNsyaerdaIRS1cMKV8n/p/FJUpT9j9xw3dSBuyVhs8B/k
+      AJZiCjYrOQKadMfDlNFfA/apTy5NJ1mNvzTbED+nNrWTVIL0hwEPc9Yf7UwVLPdl
+      XL/EXF87On/uL6VOjAm8yNDhvX23/C+ddkFWh53tK4TmKk8SpMsnCsstm5XQuN50
+      Xmb5PLo2eCBBATk5TDbpC9ZXfgqo2kkkmQl2tXdU+Tdpo/Pe5RyZN9146HkX55fq
+      3cHVp/wzg4sGV94TwKnSPWM4KPBJuzoj7hKlqdqPQQf+LLuWz3R2oJsQndoxDEhD
+      7j+HyDLSPyj9ohwuA3l9GxKq06w83jtB3A6m0upeNkY2GEOI1EOe7GEniApSdbnb
+      Yao4BYGzToI0Q6BdMD3LaOTQ6/H14O2tuZx06duMGA8UAyPxzBcT+1Der5VbyMux
+      RbBAaNKG9JLqybb7qxR/1+nNocqL1M+xhqUGHm7DrdF25V00IS/IZ7wQpQgPooNz
+      xjQ2akcWGQa12i4m+Y0VTMNOFgv0h9FuyKL/TzMpm1jtqPEFPMzTa5FOvGidMQvF
+      KX9WFEpYVOZFi4y6cEaM2VKNEW+myl7Xpq6pLv7sM7KEjV+VXQIZN7vb7cMWhdKS
+      2QABALdnNV3L2wEs4HWhv8j2PKxj9AqwSESuHJrNi5xObtL0EVa0KEhlaW5yaWNo
+      IEhlaW5lIDxlaW5yaWNoaEBkdWVzc2VsZG9yZi5kZT6IegQTEQgAIgUCWpcu3AIb
+      AwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQxVxU4wzIW2e6VQD8Cd6FJaOF
+      CSxXcTHj7pM8Hk5xLnpsWlnjQ0cBmY834EYA/joJ+8TwovjTjWvmd/1IFC/3CN5c
+      cB88QPUdn9yfQbcY
+      =4zLW
+      -----END PGP PRIVATE KEY BLOCK-----
+
+  roles:
+    - role: aptly

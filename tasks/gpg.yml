@@ -1,0 +1,42 @@
+---
+
+- name: Set keys
+  set_fact:
+    aptly_public_key: "/var/lib/aptly/public/public.key"
+    aptly_private_key: "/var/lib/aptly/.gnupg/priv.key"
+
+- name: Copy gpg keys
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    owner: aptly
+    group: aptly
+    mode: "{{ item.mode }}"
+  with_items:
+    - {
+      dest: "{{ aptly_public_key }}",
+      content: "{{ aptly_gpg_public_key | mandatory }}",
+      mode: "0644"
+    }
+    - {
+      content: "{{ aptly_gpg_private_key | mandatory }}",
+      dest: "{{ aptly_private_key }}",
+      mode: "0600"
+    }
+  no_log: true
+  tags:
+    - setup
+    - aptly
+
+- name: Import keys
+  become_user: "aptly"
+  become: true
+  command: "{{ item.command }}"
+  args:
+    creates: "{{ item.creates }}"
+  with_items:
+    - { command: "gpg --import {{ aptly_private_key }}", creates: "/var/lib/aptly/.gnupg/secring.gpg" }
+    - { command: "gpg --import {{ aptly_public_key }}", creates: "/var/lib/aptly/.gnupg/trustdb.gpg" }
+  tags:
+    - setup
+    - aptly
